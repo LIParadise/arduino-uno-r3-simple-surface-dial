@@ -37,7 +37,7 @@ void loop() {
       char buffer[2];
       Serial1.readBytes(buffer, 2);
 
-      if (buffer[1]) {
+      if (buffer[0]) {
          SurfaceDial.press();
          digitalWrite(pinLight, HIGH);
       } else {
@@ -45,9 +45,9 @@ void loop() {
          digitalWrite(pinLight, LOW);
       }
 
-      if (buffer[0] == 1) {
+      if (buffer[1] == 1) {
          SurfaceDial.rotate(10);
-      } else if (buffer[0] == 2) {
+      } else if (buffer[1] == 2) {
          SurfaceDial.rotate(-10);
       }
    }
