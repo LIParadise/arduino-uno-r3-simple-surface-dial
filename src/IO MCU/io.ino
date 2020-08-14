@@ -18,8 +18,8 @@ static const int pinButton   = 12;
 static volatile int previousEncoderValue = 0;
 static volatile int encoderCounter = 0;
 
-static const int encoderThresholdPositive = 2;
-static const int encoderThresholdNegative = -2;
+static const int encoderThresholdPositive = 1;
+static const int encoderThresholdNegative = -1;
 
 void setup() {
    // Start the Serial which is connected with the USB MCU.

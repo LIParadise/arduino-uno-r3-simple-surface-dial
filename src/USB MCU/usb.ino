@@ -12,6 +12,7 @@
 #include "HID-Project.h"
 
 static const int pinLight = 5;
+static const unsigned long bootFlashSerialTime = 200;
 
 void setup() {
    // Start the Serial1 which is connected with the IO MCU.
@@ -19,11 +20,15 @@ void setup() {
    // you can go up to 2000000 for very fast data transmission.
    Serial1.begin(115200);
 
-   // Sends a clean report to the host. This is important on any Arduino type.
-   Keyboard.begin();
-
    // Start the USB Serial for debugging
    Serial.begin(115200);
+
+   // When flashing new firmware, flash buffer
+   static unsigned long bootupTime = millis();
+   static unsigned long okayTime = bootupTime + bootFlashSerialTime;
+   while(millis() != okayTime){
+      Serial1.read();
+   }
 
    // SurfaceDial
    SurfaceDial.begin();
