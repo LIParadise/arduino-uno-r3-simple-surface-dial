@@ -11,8 +11,8 @@
  it should type those chars via keyboard.
 */
 
-static const int pinEncoder0 = 3;
-static const int pinEncoder1 = 5;
+static const int pinEncoder0 = 9;
+static const int pinEncoder1 = 11;
 static const int pinButton   = 12;
 
 static volatile int previousEncoderValue = 0;
@@ -58,20 +58,20 @@ void changed() {
 void loop() {
    changed();
 
-   char buffer [2];
+   byte data = 0x00;
 
-   buffer[0] = !digitalRead(pinButton);
-
-   if(encoderCounter >= encoderThresholdPositive){
-      buffer[1] = (char)1;
-      encoderCounter = 0;
-   }else if(encoderCounter <= encoderThresholdNegative) {
-      buffer[1] = (char)2;
-      encoderCounter = 0;
-   }else {
-      buffer[1] = (char)0;
+   if(!digitalRead(pinButton)){
+      data |= 0x01;
    }
 
-   Serial.write(buffer, 2);
+   if(encoderCounter >= encoderThresholdPositive){
+      data |= 0x02;
+      encoderCounter = 0;
+   }else if(encoderCounter <= encoderThresholdNegative) {
+      data |= 0x04;
+      encoderCounter = 0;
+   }
+
+   Serial.write(data);
    delay(5);
 }

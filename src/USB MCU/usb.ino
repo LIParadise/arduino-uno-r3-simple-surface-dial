@@ -39,10 +39,9 @@ void setup() {
 void loop() {
    // Check if any Serial data from the IO MCU was received
    if (Serial1.available() > 0) {
-      char buffer[2];
-      Serial1.readBytes(buffer, 2);
+      byte data = Serial1.read();
 
-      if (buffer[0]) {
+      if (data & (char)0x01) {
          SurfaceDial.press();
          digitalWrite(pinLight, HIGH);
       } else {
@@ -50,9 +49,9 @@ void loop() {
          digitalWrite(pinLight, LOW);
       }
 
-      if (buffer[1] == 1) {
+      if (data & (char)0x02) {
          SurfaceDial.rotate(10);
-      } else if (buffer[1] == 2) {
+      } else if (data & (char)0x04) {
          SurfaceDial.rotate(-10);
       }
    }
